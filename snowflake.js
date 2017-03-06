@@ -1,12 +1,17 @@
 function drawSnowflake(iteration) {
-    var x = 0;
-    var y = 375;
-    var angle = -60;
-    var len = 430;
-
     var canvas = document.getElementById("snowflake");
     var canvasHeight = parseInt(canvas.getAttribute("height"));
     var canvasWidth = parseInt(canvas.getAttribute("width"));
+
+    var len;
+    if(canvasHeight / canvasWidth <= (Math.sin(Math.PI / 3) * 4 / 3)) {
+        len = canvasHeight * 3 / (4 * Math.sin(Math.PI / 3));
+    } else {
+        len = canvasWidth;
+    }
+    var x = 0;
+    var y = len * Math.sin(Math.PI / 3);
+    var angle = -60 * Math.PI / 180;
 
     var context = canvas.getContext("2d");
     
@@ -17,14 +22,14 @@ function drawSnowflake(iteration) {
 
     drawSide(iteration, x, y, angle, len, context);
 
-    x = x + len * Math.cos(angle * Math.PI / 180);
-    y = y + len * Math.sin(angle * Math.PI / 180);
-    angle += 120;
+    x = x + len * Math.cos(angle);
+    y = y + len * Math.sin(angle);
+    angle += 120 * Math.PI / 180;
     drawSide(iteration, x, y, angle, len, context);
 
-    x = x + len * Math.cos(angle * Math.PI / 180);
-    y = y + len * Math.sin(angle * Math.PI / 180);
-    angle += 120;
+    x = x + len * Math.cos(angle);
+    y = y + len * Math.sin(angle);
+    angle += 120 * Math.PI / 180;
     drawSide(iteration, x, y, angle, len, context);
 }
 /**
@@ -41,24 +46,24 @@ function drawSide(iteration, x, y, angle, len, context) {
     if(iteration > 0) {
         drawSide(iteration - 1, x, y, angle, len/3, context);
 
-        x = x + len / 3 * Math.cos(angle * Math.PI / 180);
-        y = y + len / 3 * Math.sin(angle * Math.PI / 180);
-        angle -= 60;
+        x = x + len / 3 * Math.cos(angle);
+        y = y + len / 3 * Math.sin(angle);
+        angle -= 60 * Math.PI / 180;
         drawSide(iteration - 1, x, y, angle, len/3, context);
 
-        x = x + len / 3 * Math.cos(angle * Math.PI / 180);
-        y = y + len / 3 * Math.sin(angle * Math.PI / 180);
-        angle += 120;
+        x = x + len / 3 * Math.cos(angle);
+        y = y + len / 3 * Math.sin(angle);
+        angle += 120 * Math.PI / 180;
         drawSide(iteration - 1, x, y, angle, len/3, context);
 
-        x = x + len / 3 * Math.cos(angle * Math.PI / 180);
-        y = y + len / 3 * Math.sin(angle * Math.PI / 180);
-        angle -= 60;
+        x = x + len / 3 * Math.cos(angle);
+        y = y + len / 3 * Math.sin(angle);
+        angle -= 60 * Math.PI / 180;
         drawSide(iteration - 1, x, y, angle, len/3, context);
     }
     else {
-        var finishX = x + len * Math.cos(angle * Math.PI / 180);
-        var finishY = y + len * Math.sin(angle * Math.PI / 180);
+        var finishX = x + len * Math.cos(angle);
+        var finishY = y + len * Math.sin(angle);
         drawLine(x, y, finishX, finishY, context);
     }
 }
@@ -71,6 +76,6 @@ function drawLine(x, y, finishX, finishY, context) {
 }
 
 function run() {
-    var input = document.getElementById("input").value;
-    drawSnowflake(input);
+    var iteration = document.getElementById("input").value;
+    drawSnowflake(iteration);
 }
